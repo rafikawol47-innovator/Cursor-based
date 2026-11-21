@@ -1,0 +1,265 @@
+/* =========================================================
+   Doroye — theme with DARK + LIGHT modes
+   Palette taken from the logo: deep navy, royal blue, gold, rooster red.
+   Dark = deep navy · Light = soft cool white
+   Mode is chosen by  <html data-theme="dark|light">  (set in index.html)
+   and falls back to the device setting when no data-theme is set.
+   Class names are identical to the old file so main.js works.
+   Colour roles:  --g = blue (ok / online / main buttons)   --r = red (alert / offline)
+                  --y = gold (accent / warning)             --b = bright blue (links, titles)
+   ========================================================= */
+
+/* ---------- DARK (default) ---------- */
+:root{
+  --bg:#071429;
+  --bg2:#050f20;          /* inputs / inset areas */
+  --card:#0f2142;
+  --card-grad:#0c1b38;    /* bottom of card gradient */
+  --card2:#16305d;        /* hover / raised */
+  --line:#24407a;
+  --tx:#f3f6ff;
+  --mut:#a9b9d9;
+  --ph:#7388b3;           /* placeholder */
+  --g:#2f6fe0;            /* ok / online (blue) */
+  --r:#d3263a;            /* alert / offline (rooster red) */
+  --y:#e0b351;            /* accent (logo gold) */
+  --b:#5b9bff;
+  --on-accent:#0a1530;    /* text on gold */
+  --g-solid:#1f5bd1;
+  --r-solid:#b81f31;
+  --head-bg:rgba(7,20,41,.90);
+  --glow1:rgba(224,179,81,.08);
+  --glow2:rgba(47,111,224,.18);
+  --title-a:#ffffff;
+  --title-b:#e0b351;
+  --sb:#2c4a85;
+  --shadow:0 10px 30px rgba(0,6,20,.45);
+  --accent-a:rgba(224,179,81,.35);
+  --accent-soft:rgba(224,179,81,.10);
+  --accent-mid:rgba(224,179,81,.20);
+  --accent-ring:rgba(91,155,255,.35);
+  --track:rgba(255,255,255,.12);
+  --radius:16px;
+  color-scheme:dark;
+}
+
+/* ---------- LIGHT ---------- */
+:root[data-theme=light]{
+  --bg:#eef3fb;
+  --bg2:#f6f9fe;
+  --card:#ffffff;
+  --card-grad:#f7faff;
+  --card2:#e6eefb;
+  --line:#cfdaee;
+  --tx:#0b1a3a;
+  --mut:#53648a;
+  --ph:#8795b3;
+  --g:#1f5fd1;
+  --r:#c0222f;
+  --y:#c8952a;
+  --b:#1f5fd1;
+  --on-accent:#0a1530;
+  --g-solid:#1f5fd1;
+  --r-solid:#c0222f;
+  --head-bg:rgba(255,255,255,.90);
+  --glow1:rgba(200,149,42,.10);
+  --glow2:rgba(31,95,209,.10);
+  --title-a:#0b1a3a;
+  --title-b:#1f5fd1;
+  --sb:#b7c6e2;
+  --shadow:0 8px 24px rgba(20,45,100,.12);
+  --accent-a:rgba(200,149,42,.30);
+  --accent-soft:rgba(200,149,42,.09);
+  --accent-mid:rgba(200,149,42,.17);
+  --accent-ring:rgba(31,95,209,.25);
+  --track:rgba(11,26,58,.10);
+  color-scheme:light;
+}
+/* No manual choice yet → follow the device setting */
+@media(prefers-color-scheme:light){
+  :root:not([data-theme=dark]):not([data-theme=light]){
+    --bg:#eef3fb;--bg2:#f6f9fe;--card:#ffffff;--card-grad:#f7faff;--card2:#e6eefb;
+    --line:#cfdaee;--tx:#0b1a3a;--mut:#53648a;--ph:#8795b3;
+    --g:#1f5fd1;--r:#c0222f;--y:#c8952a;--b:#1f5fd1;--on-accent:#0a1530;
+    --g-solid:#1f5fd1;--r-solid:#c0222f;
+    --head-bg:rgba(255,255,255,.90);--glow1:rgba(200,149,42,.10);--glow2:rgba(31,95,209,.10);
+    --title-a:#0b1a3a;--title-b:#1f5fd1;--sb:#b7c6e2;
+    --shadow:0 8px 24px rgba(20,45,100,.12);
+    --accent-a:rgba(200,149,42,.30);--accent-soft:rgba(200,149,42,.09);
+    --accent-mid:rgba(200,149,42,.17);--accent-ring:rgba(31,95,209,.25);
+    --track:rgba(11,26,58,.10);
+    color-scheme:light;
+  }
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:calc(80px + env(safe-area-inset-top,0px))}
+body{
+  margin:0;color:var(--tx);font-size:16px;line-height:1.55;
+  font-family:"Inter","Noto Sans Ethiopic","Segoe UI",system-ui,-apple-system,sans-serif;
+  background:
+    radial-gradient(900px 500px at 85% -10%,var(--glow1),transparent 60%),
+    radial-gradient(900px 600px at -10% 0%,var(--glow2),transparent 55%),
+    var(--bg);
+  background-attachment:fixed;
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  transition:background-color .25s,color .25s;
+}
+a{color:var(--b);text-decoration:none}
+h2{margin:0 0 .7rem;font-size:1.25rem;font-weight:700}
+h3{margin:0 0 .5rem}
+
+/* ---------- Header / Navigation ---------- */
+header{
+  position:sticky;top:0;z-index:50;
+  display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+  padding:12px 22px;padding-top:calc(12px + env(safe-area-inset-top,0px));
+  background:var(--head-bg);color:var(--tx);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line);
+  box-shadow:0 2px 0 var(--y), 0 10px 24px rgba(0,6,20,.18);
+}
+header .logo{height:42px;width:42px;border-radius:10px;box-shadow:0 0 0 1px var(--line);object-fit:cover}
+header h1{
+  flex:0 0 auto;margin:0;font-size:18px;font-weight:700;
+  letter-spacing:.16em;text-transform:uppercase;
+  background:linear-gradient(var(--title-a),var(--title-b));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+nav{display:flex;gap:6px;flex-wrap:wrap;margin-left:auto}
+nav button{
+  border:1px solid transparent;border-radius:10px;
+  padding:9px 15px;font:inherit;font-size:14px;font-weight:600;
+  background:transparent;color:var(--mut);cursor:pointer;
+  transition:background .18s,color .18s,border-color .18s,transform .18s;
+}
+nav button:hover{background:var(--card);color:var(--tx);border-color:var(--line)}
+nav button.on{
+  background:var(--y);color:var(--on-accent);border-color:var(--y);
+  box-shadow:0 4px 14px var(--accent-a);
+}
+.badge{
+  background:var(--r);color:#fff;border-radius:99px;
+  padding:1px 8px;font-size:12px;font-weight:700;margin-left:6px;
+}
+
+/* ---------- Layout ---------- */
+main{max-width:1100px;margin:0 auto;padding:24px 20px 40px}
+.card{
+  background:linear-gradient(180deg,var(--card),var(--card-grad));
+  border:1px solid var(--line);border-radius:var(--radius);
+  padding:22px;margin:14px 0;box-shadow:var(--shadow);
+}
+.hero{display:block;max-width:min(560px,92%);margin:0 auto 12px;border-radius:14px}
+.row{display:flex;gap:12px;flex-wrap:wrap}
+.row>*{flex:1 1 150px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px}
+.sg{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:14px}
+.mut{color:var(--mut)}
+.big{font-size:60px;text-align:center}
+
+/* ---------- Items / status cards ---------- */
+.food,.sc{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  box-shadow:var(--shadow);color:inherit;font:inherit;
+  transition:transform .18s,border-color .18s,background .18s;
+}
+.food{text-align:center;padding:14px;border-width:2px;cursor:pointer}
+.food:hover,.sc:hover{transform:translateY(-3px);background:var(--card2)}
+.food .e{font-size:44px}
+.food.f{border-color:var(--g)}
+.food.s{border-color:var(--r)}
+.food.n{border-color:var(--y)}
+.sc{padding:16px;font-size:14px;color:var(--mut)}
+.sv{font-size:32px;font-weight:700;color:var(--tx);margin:6px 0}
+.sv small{font-size:14px;font-weight:500;color:var(--mut)}
+
+/* ---------- Tags / pills ---------- */
+.tag,.pill{
+  display:inline-block;padding:3px 12px;border-radius:99px;
+  color:#fff;font-size:13px;font-weight:700;letter-spacing:.02em;
+}
+.tag.f{background:var(--g-solid)}
+.tag.s{background:var(--r-solid)}
+.tag.n{background:var(--y);color:var(--on-accent)}
+
+/* ---------- Buttons ---------- */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  border:1px solid var(--line);border-radius:12px;padding:11px 18px;
+  font:inherit;font-weight:600;font-size:15px;cursor:pointer;
+  background:var(--card2);color:var(--tx);
+  transition:transform .15s,filter .15s,box-shadow .15s;
+}
+.btn:hover{transform:translateY(-1px);filter:brightness(1.1);box-shadow:0 6px 18px rgba(0,6,20,.28)}
+.btn:active{transform:translateY(0)}
+.btn:disabled{opacity:.5;cursor:not-allowed;transform:none;filter:none;box-shadow:none}
+.btn.g{background:var(--g-solid);border-color:var(--g);color:#fff}
+.btn.r{background:var(--r-solid);border-color:var(--r);color:#fff}
+.btn.b{background:var(--y);border-color:var(--y);color:var(--on-accent)}
+
+/* ---------- Forms ---------- */
+input,select,textarea{
+  font:inherit;width:100%;margin:6px 0;padding:12px 14px;
+  background:var(--bg2);color:var(--tx);
+  border:1px solid var(--line);border-radius:12px;
+  transition:border-color .18s,box-shadow .18s;
+}
+input::placeholder,textarea::placeholder{color:var(--ph)}
+input:focus,select:focus,textarea:focus{
+  outline:none;border-color:var(--b);box-shadow:0 0 0 3px var(--accent-ring);
+}
+.chk{display:flex;gap:10px;align-items:center;margin:10px 0}
+.chk input{width:auto;margin:0;accent-color:var(--g)}
+.drop{
+  border:2px dashed var(--y);border-radius:var(--radius);padding:30px;
+  text-align:center;cursor:pointer;margin:10px 0;color:var(--tx);
+  background:var(--accent-soft);transition:background .18s;
+}
+.drop:hover,.drop.over{background:var(--accent-mid)}
+
+/* ---------- Media / progress ---------- */
+video,canvas,img#pv{max-width:100%;border-radius:14px;border:1px solid var(--line)}
+.bar{height:14px;border-radius:9px;background:var(--track);overflow:hidden}
+.bar i{display:block;height:100%;border-radius:9px}
+
+/* ---------- Messages ---------- */
+.msg{
+  border-left:4px solid var(--line);background:var(--bg2);
+  padding:10px 14px;border-radius:10px;margin:10px 0;white-space:pre-wrap;
+}
+.msg.mine{border-color:var(--y);background:var(--accent-soft)}
+
+/* ---------- Scrollbar ---------- */
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-thumb{background:var(--sb);border-radius:8px}
+::-webkit-scrollbar-track{background:var(--bg)}
+
+/* ---------- Mobile ---------- */
+@media(max-width:720px){
+  header{padding:10px 14px;padding-top:calc(10px + env(safe-area-inset-top,0px))}
+  header h1{font-size:16px}
+  nav{
+    margin-left:0;width:100%;flex-wrap:nowrap;overflow-x:auto;
+    padding-bottom:4px;scrollbar-width:none;
+  }
+  nav::-webkit-scrollbar{display:none}
+  nav button{white-space:nowrap;flex:0 0 auto}
+  main{padding:16px 12px 32px}
+  .card{padding:16px}
+}
+
+/* ---------- Theme toggle button ---------- */
+.theme-btn{
+  width:40px;height:40px;padding:0;flex:0 0 auto;
+  display:inline-flex;align-items:center;justify-content:center;
+  font-size:18px;line-height:1;cursor:pointer;
+  background:var(--card);color:var(--tx);
+  border:1px solid var(--line);border-radius:12px;
+  transition:transform .15s,background .18s,border-color .18s;
+}
+.theme-btn:hover{background:var(--card2);border-color:var(--y);transform:translateY(-1px)}
+@media(max-width:720px){
+  .theme-btn{margin-left:auto}
+  nav{order:3}
+}

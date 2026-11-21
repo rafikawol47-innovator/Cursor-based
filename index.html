@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Doroye</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#071429">
+<link rel="icon" href="{{ url_for('static', filename='img/mark.png') }}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Ethiopic:wght@400;600;700&display=swap" rel="stylesheet">
+<!-- Apply saved theme before the page paints (prevents a flash) -->
+<script>
+(function(){
+  try{
+    var t=localStorage.getItem('dy-theme');
+    if(t==='light'||t==='dark') document.documentElement.setAttribute('data-theme',t);
+  }catch(e){}
+})();
+</script>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<header>
+  <img class="logo" src="{{ url_for('static', filename='img/mark.png') }}" alt="Doroye">
+  <h1>Doroye</h1>
+  <nav id="nav"></nav>
+  <button id="themeBtn" class="theme-btn" type="button" aria-label="Switch light / dark mode" title="Switch light / dark mode"></button>
+</header>
+<main id="app"></main>
+
+<script>
+(function(){
+  var root=document.documentElement, btn=document.getElementById('themeBtn');
+  var meta=document.querySelector('meta[name="theme-color"]');
+  function current(){
+    var t=root.getAttribute('data-theme');
+    if(t) return t;
+    return window.matchMedia&&matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';
+  }
+  function paint(){
+    var t=current();
+    btn.textContent = t==='dark' ? '☀️' : '🌙';   /* sun in dark mode, moon in light mode */
+    if(meta) meta.setAttribute('content', t==='dark' ? '#071429' : '#eef3fb');
+  }
+  btn.addEventListener('click',function(){
+    var next=current()==='dark'?'light':'dark';
+    root.setAttribute('data-theme',next);
+    try{localStorage.setItem('dy-theme',next);}catch(e){}
+    paint();
+  });
+  paint();
+})();
+</script>
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+<script src="{{ url_for('static', filename='js/env_agent.js') }}"></script>
+<script src="{{ url_for('static', filename='js/pi_lab.js') }}"></script>
+</body>
+</html>
